@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Product from 'views/common/Product';
 
 export const CollectionHeader = styled.div`
   width: 100%;
@@ -37,6 +38,14 @@ export const Title = styled.div`
   height: 54px;
 `;
 
+export const ProductsList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Products: React.FC = () => (
   <>
     <CollectionHeader>
@@ -47,6 +56,13 @@ const Products: React.FC = () => (
       <h2>클래스 목록</h2>
       <div>평점순</div>
     </Title>
+    <ProductsList>
+      <Product />
+      <Product />
+      <Product />
+      <Product />
+      <Product />
+    </ProductsList>
   </>
 );
 
