@@ -1,13 +1,13 @@
 import React from 'react';
 import Layout from './views/layout/Layout';
-import Products from './views/pages/Products';
+import Cart from './views/pages/Cart';
 import './App.css';
 
 function App() {
   return (
     <div className='App'>
       <Layout>
-        <Products />
+        <Cart />
       </Layout>
     </div>
   );
