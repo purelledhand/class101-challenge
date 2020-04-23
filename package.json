@@ -10,6 +10,8 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -19,10 +21,28 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "fix": "eslint --fix src/**/*.tsx",
+    "smoke": "eslint src/**/*.tsx && react-scripts build"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app", "airbnb"],
+    "rules": {
+      "react/prefer-stateless-function": 0,
+      "react/jsx-filename-extension": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "import/extensions": 0
+    },
+    "env": {
+      "browser": true
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      }
+    }
   },
   "browserslist": {
     "production": [
