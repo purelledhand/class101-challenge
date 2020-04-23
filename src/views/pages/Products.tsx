@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Product from 'views/common/Product';
+import Pagination from '@material-ui/lab/Pagination';
 
 export const CollectionHeader = styled.div`
   width: 100%;
@@ -9,6 +10,7 @@ export const CollectionHeader = styled.div`
   flex-direction: column;
   padding-top: 72px;
   box-sizing: border-box;
+  margin-bottom: 20px;
 `;
 
 export const CollectionTitle = styled.h2`
@@ -36,6 +38,7 @@ export const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 54px;
+  margin-bottom: 24px;
 `;
 
 export const ProductsList = styled.div`
@@ -44,6 +47,7 @@ export const ProductsList = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 `;
 
 const Products: React.FC = () => (
@@ -63,6 +67,7 @@ const Products: React.FC = () => (
       <Product />
       <Product />
     </ProductsList>
+    <Pagination count={100} />
   </>
 );
 
