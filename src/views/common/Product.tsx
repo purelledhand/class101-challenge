@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import CartButton from './CartButton';
 
 export const ProductWrapper = styled.div`
   display: flex;
@@ -41,12 +43,28 @@ export const ProductDisc = styled.div`
   color: rgb(133, 138, 141);
 `;
 
+export const ProductFooter = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
 const Product: React.FC = () => (
   <ProductWrapper>
     <ProductCover src='https://cdn.class101.net/images/9e7be50d-72f1-4c93-80d6-c6b95b42bd40' />
     <ProductTitle>평범한 일상에 색을 더하는 시간, 자토의 아이패드 드로잉</ProductTitle>
-    <ProductDisc>300</ProductDisc>
-    <div>50,000원</div>
+    <ProductDisc>
+      <BarChartIcon />
+      300
+    </ProductDisc>
+    <ProductFooter>
+      <div>50,000원</div>
+      <CartButton inCart />
+    </ProductFooter>
   </ProductWrapper>
 );
 
