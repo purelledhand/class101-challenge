@@ -53,19 +53,32 @@ export const ProductFooter = styled.div`
   font-weight: bold;
 `;
 
-const Product: React.FC = () => (
-  <ProductWrapper>
-    <ProductCover src='https://cdn.class101.net/images/9e7be50d-72f1-4c93-80d6-c6b95b42bd40' />
-    <ProductTitle>평범한 일상에 색을 더하는 시간, 자토의 아이패드 드로잉</ProductTitle>
-    <ProductDisc>
-      <BarChartIcon />
-      300
-    </ProductDisc>
-    <ProductFooter>
-      <div>50,000원</div>
-      <CartButton inCart />
-    </ProductFooter>
-  </ProductWrapper>
-);
+interface ProductProps {
+  title: string;
+  coverImage: string;
+  price: number;
+  score: number;
+}
+
+const Product: React.FC<ProductProps> = (props) => {
+  const {
+    title, coverImage, price, score,
+  } = props;
+
+  return (
+    <ProductWrapper>
+      <ProductCover src={coverImage} />
+      <ProductTitle>{title}</ProductTitle>
+      <ProductDisc>
+        <BarChartIcon />
+        {score}
+      </ProductDisc>
+      <ProductFooter>
+        <div>{price}원</div>
+        <CartButton inCart />
+      </ProductFooter>
+    </ProductWrapper>
+  );
+};
 
 export default Product;

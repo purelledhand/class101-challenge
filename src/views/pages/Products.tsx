@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Product from 'views/common/Product';
 import Pagination from '@material-ui/lab/Pagination';
+import productItems from 'utils/productItems';
 
 export const CollectionHeader = styled.div`
   width: 100%;
@@ -50,6 +51,22 @@ export const ProductsList = styled.div`
   margin-bottom: 24px;
 `;
 
+const productItemList = productItems.map((item) => {
+  const {
+    id, title, coverImage, price, score,
+  } = item;
+
+  return (
+    <Product
+      key={id}
+      title={title}
+      coverImage={coverImage}
+      price={price}
+      score={score}
+    />
+  );
+});
+
 const Products: React.FC = () => (
   <>
     <CollectionHeader>
@@ -61,11 +78,7 @@ const Products: React.FC = () => (
       <div>평점순</div>
     </Title>
     <ProductsList>
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
+      {productItemList}
     </ProductsList>
     <Pagination count={100} />
   </>
