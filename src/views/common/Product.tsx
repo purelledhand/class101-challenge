@@ -67,6 +67,8 @@ interface ProductProps {
   score: number;
 }
 
+// TODO: 이미지소스 받아오기 전동안 렌더링 해줄 placeholder 셋팅
+// TODO: 마운트 될 때 fadein 효과 추가
 const Product: React.FC<ProductProps> = (props) => {
   const {
     title, coverImage, price, score,
