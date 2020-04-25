@@ -14,18 +14,19 @@ export const ProductWrapper = styled.div`
 `;
 
 interface CartButtonProps {
-  inCart: boolean;
+  isInCart: boolean;
+  onClick: VoidFunction;
 }
 
 const CartButton: React.FC<CartButtonProps> = (props) => {
-  const { inCart } = props;
+  const { isInCart, onClick } = props;
 
-  return inCart ? (
-    <IconButton>
+  return isInCart ? (
+    <IconButton onClick={onClick}>
       <RemoveShoppingCartOutlinedIcon />
     </IconButton>
   ) : (
-    <IconButton>
+    <IconButton onClick={onClick}>
       <AddShoppingCartIcon />
     </IconButton>
   );

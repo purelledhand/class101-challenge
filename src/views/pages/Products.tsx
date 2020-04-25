@@ -59,20 +59,6 @@ export const ProductsList = styled.div`
 `;
 
 /*
- * NOTE: 프로덕트 렌더링 방식 및 state management strategy
- * 서버로부터 받은 데이터를 모두 클라이언트로 가져 온 다음, 컴포넌트 상태에 저장
- * 가져 온 데이터를 5개씩 쪼개서 페이지네이션과 함께 렌더링.
- * 더 효율적인 방법이 있는지 검토 필요함
- */
-const renderProduct = (products: Array<Product>): Array<JSX.Element> => products.map((item) => {
-  const {
-    id, title, coverImage, price, score,
-  } = item;
-
-  return <Product key={id} title={title} coverImage={coverImage} price={price} score={score} />;
-});
-
-/*
  * NOTE: Pagination Strategy
  * 1. 프로덕트 리스트 개수로부터 총 페이지 계산 후 넘김
  * 2. 페이지 버튼 누르면 현재 페이지 상태 업데이트 (changePaged에서 setRenderedProducts 트리거)
@@ -96,7 +82,7 @@ const renderProduct = (products: Array<Product>): Array<JSX.Element> => products
  * 2. productPage: 현재 프로덕트 페이지
  */
 // TODO: ProductsList 태그 내에서는 렌더링할 프로덕트 리스트를.
-
+// index를 별도로 저장해서 isInCart 값 바꿀때 인덱스값으로 검사해서 O(1)이 되도록 하는 방식에 반례는 없을지? 정당할지
 interface Product {
   id: string;
   title: string;
@@ -106,9 +92,20 @@ interface Product {
   availableCoupon?: boolean;
 }
 
+interface CartProduct {
+  id: string;
+  title: string;
+  price: number;
+  availableCoupon?: boolean;
+}
+
 const Products: React.FC = () => {
   const defaultPage = 1;
-  const SortedProductItems = productItems.sort((a, b) => (b.score - a.score));
+  const sortedProductItems = productItems.sort((a, b) => b.score - a.score);
+  // TODO: global state로 빼주기. 지금은 액션처리용도로만 사용
+  // cart: 장바구니 페이지에 넘길 데이터({id, title, price, availableCoupon})
+  // array of product index : 검색 시간복잡도 O(1)
+  const [cart, setCart] = useState<Array<string>>([]);
   const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
   const [productPage, setProductPage] = useState<number>(defaultPage);
   const endPage = Math.ceil(productItems.length / 5);
@@ -116,12 +113,44 @@ const Products: React.FC = () => {
   // TODO: renaming function
   const changeProductPageEvent = (e: React.ChangeEvent<unknown>, page: number): void => {
     setProductPage(page);
-    setRenderedProducts(SortedProductItems.slice((page - 1) * 5, page * 5));
+    setRenderedProducts(sortedProductItems.slice((page - 1) * 5, page * 5));
   };
 
   useEffect(() => {
-    setRenderedProducts(SortedProductItems.slice((defaultPage - 1) * 5, defaultPage * 5));
-  }, [SortedProductItems]);
+    setRenderedProducts(sortedProductItems.slice((defaultPage - 1) * 5, defaultPage * 5));
+  }, [sortedProductItems]);
+
+  // TODO: 중복체크, 갯수제한
+  const onCartButtonClick = (id: string) => {
+    setCart([...cart, id]);
+  };
+
+  /*
+   * NOTE: 프로덕트 렌더링 방식 및 state management strategy
+   * 서버로부터 받은 데이터를 모두 클라이언트로 가져 온 다음, 컴포넌트 상태에 저장
+   * 가져 온 데이터를 5개씩 쪼개서 페이지네이션과 함께 렌더링.
+   * 더 효율적인 방법이 있는지 검토 필요함
+   */
+  function renderProduct(products: Array<Product>) {
+    return products.map((item: Product) => {
+      const {
+        id, title, coverImage, price, score,
+      } = item;
+
+      return (
+        <Product
+          key={id}
+          id={id}
+          title={title}
+          coverImage={coverImage}
+          price={price}
+          score={score}
+          onClick={() => onCartButtonClick(id)}
+          cart={cart}
+        />
+      );
+    });
+  }
 
   return (
     <>
