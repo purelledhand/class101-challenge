@@ -15,15 +15,21 @@ export const ProductWrapper = styled.div`
 export const ProductCover = styled.img`
   width: 100%;
   height: 160px;
-  object-fit: cover;
   border-radius: 5px;
   margin-bottom: 12px;
+  transition: opacity 0.1s linear 0s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 export const ProductTitle = styled.div`
   font-size: 14px;
   font-weight: normal;
   line-height: 20px;
+  height: 44px;
   letter-spacing: -0.15px;
   color: rgb(27, 28, 29);
   display: -webkit-box;
@@ -39,6 +45,7 @@ export const ProductDisc = styled.div`
   letter-spacing: normal;
   display: flex;
   -webkit-box-align: center;
+  justify-content: center;
   align-items: center;
   color: rgb(133, 138, 141);
 `;
@@ -70,7 +77,7 @@ const Product: React.FC<ProductProps> = (props) => {
       <ProductCover src={coverImage} />
       <ProductTitle>{title}</ProductTitle>
       <ProductDisc>
-        <BarChartIcon />
+        <BarChartIcon fontSize='small' />
         {score}
       </ProductDisc>
       <ProductFooter>
