@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Product from 'views/common/Product';
 import Pagination from '@material-ui/lab/Pagination';
+import productItems from 'utils/productItems';
 
 export const CollectionHeader = styled.div`
   width: 100%;
@@ -45,30 +46,97 @@ export const ProductsList = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 24px;
+
+  & > div {
+    margin-right: 22px;
+  }
+  & > div:nth-child(5n) {
+    margin-right: 0;
+  }
 `;
 
-const Products: React.FC = () => (
-  <>
-    <CollectionHeader>
-      <CollectionTitle>방 안에서 즐기는 봄 클래스</CollectionTitle>
-      <CollectionSubTitle>사각사각 바느질부터 봄풍경 그리기 까지</CollectionSubTitle>
-    </CollectionHeader>
-    <Title>
-      <h2>클래스 목록</h2>
-      <div>평점순</div>
-    </Title>
-    <ProductsList>
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-    </ProductsList>
-    <Pagination count={100} />
-  </>
-);
+/*
+ * NOTE: 프로덕트 렌더링 방식 및 state management strategy
+ * 서버로부터 받은 데이터를 모두 클라이언트로 가져 온 다음, 컴포넌트 상태에 저장
+ * 가져 온 데이터를 5개씩 쪼개서 페이지네이션과 함께 렌더링.
+ * 더 효율적인 방법이 있는지 검토 필요함
+ */
+const renderProduct = (products: Array<Product>): Array<JSX.Element> => products.map((item) => {
+  const {
+    id, title, coverImage, price, score,
+  } = item;
+
+  return <Product key={id} title={title} coverImage={coverImage} price={price} score={score} />;
+});
+
+/*
+ * NOTE: Pagination Strategy
+ * 1. 프로덕트 리스트 개수로부터 총 페이지 계산 후 넘김
+ * 2. 페이지 버튼 누르면 현재 페이지 상태 업데이트 (changePaged에서 setRenderedProducts 트리거)
+ * 3. renderedProducts 상태 업데이트
+ * ISSUE: 페이지 바뀔때마다 cdn에서 이미지 가져와서 인터랙션이 안좋아짐
+ * ISSUE: 이미 방문했던 페이지 이미지도 다시 cdn에서 받아옴 (캐싱 도입?)
+ * ISSUE: 리렌더링 시 cdn에서 original 이미지 다시 불러오는 문제
+ * Request URL: https://cdn.class101.net/images/a363a069-5aaf-40cb-822e-a2cab585c37e/original
+ * cdn에 original로 붙어서 요청감 -> DOM에서 이미지 잡아놔야함
+ */
+
+/* NOTE: amountPage 생각해 볼 거리
+ * 한 상품페이지에서 받아오는 productItems 배열이 바뀔 수 있는지?
+ * 바뀌지 않는다면/바뀐다면 useEffect(fn, [productItems])로 amountPage를 업데이트 해줄 필요가 있을지
+ * 그런식으로 관리한다면 컴포넌트 내에 productItems 배열을 state로 가져와야 한다는 단점이 있음 (상태가 많아짐)
+ */
+
+/*
+ * NOTE: Products Component State
+ * 1. renderedProducts: 페이지네이션을 통해 페이지에서 렌더링할 프로덕트 리스트
+ * 2. productPage: 현재 프로덕트 페이지
+ */
+// TODO: ProductsList 태그 내에서는 렌더링할 프로덕트 리스트를.
+
+interface Product {
+  id: string;
+  title: string;
+  coverImage: string;
+  price: number;
+  score: number;
+  availableCoupon?: boolean;
+}
+
+const Products: React.FC = () => {
+  const defaultPage = 1;
+  const SortedProductItems = productItems.sort((a, b) => (b.score - a.score));
+  const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
+  const [productPage, setProductPage] = useState<number>(defaultPage);
+  const endPage = Math.ceil(productItems.length / 5);
+
+  // TODO: renaming function
+  const changeProductPageEvent = (e: React.ChangeEvent<unknown>, page: number): void => {
+    setProductPage(page);
+    setRenderedProducts(SortedProductItems.slice((page - 1) * 5, page * 5));
+  };
+
+  useEffect(() => {
+    setRenderedProducts(SortedProductItems.slice((defaultPage - 1) * 5, defaultPage * 5));
+  }, [SortedProductItems]);
+
+  return (
+    <>
+      <CollectionHeader>
+        <CollectionTitle>방 안에서 즐기는 봄 클래스</CollectionTitle>
+        <CollectionSubTitle>사각사각 바느질부터 봄풍경 그리기 까지</CollectionSubTitle>
+      </CollectionHeader>
+      <Title>
+        <h2>클래스 목록</h2>
+        <div>평점순</div>
+      </Title>
+      <ProductsList>{renderProduct(renderedProducts)}</ProductsList>
+      <Pagination count={endPage} page={productPage} onChange={changeProductPageEvent} />
+    </>
+  );
+};
 
 export default Products;
