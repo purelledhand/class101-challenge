@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
 const productItems = [

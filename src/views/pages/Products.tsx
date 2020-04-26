@@ -105,9 +105,9 @@ const Products: React.FC = () => {
   // TODO: global state로 빼주기. 지금은 액션처리용도로만 사용
   // cart: 장바구니 페이지에 넘길 데이터({id, title, price, availableCoupon})
   // array of product index : 검색 시간복잡도 O(1)
-  const [cart, setCart] = useState<Array<string>>([]);
   const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
   const [productPage, setProductPage] = useState<number>(defaultPage);
+
   const endPage = Math.ceil(productItems.length / 5);
 
   // TODO: renaming function
@@ -120,11 +120,6 @@ const Products: React.FC = () => {
     setRenderedProducts(sortedProductItems.slice((defaultPage - 1) * 5, defaultPage * 5));
   }, [sortedProductItems]);
 
-  // TODO: 중복체크, 갯수제한
-  const onCartButtonClick = (id: string) => {
-    setCart([...cart, id]);
-  };
-
   /*
    * NOTE: 프로덕트 렌더링 방식 및 state management strategy
    * 서버로부터 받은 데이터를 모두 클라이언트로 가져 온 다음, 컴포넌트 상태에 저장
@@ -133,9 +128,7 @@ const Products: React.FC = () => {
    */
   function renderProduct(products: Array<Product>) {
     return products.map((item: Product) => {
-      const {
-        id, title, coverImage, price, score,
-      } = item;
+      const { id, title, coverImage, price, score, availableCoupon } = item;
 
       return (
         <Product
@@ -145,8 +138,7 @@ const Products: React.FC = () => {
           coverImage={coverImage}
           price={price}
           score={score}
-          onClick={() => onCartButtonClick(id)}
-          cart={cart}
+          availableCoupon={availableCoupon}
         />
       );
     });
@@ -162,7 +154,9 @@ const Products: React.FC = () => {
         <h2>클래스 목록</h2>
         <div>평점순</div>
       </Title>
-      <ProductsList>{renderProduct(renderedProducts)}</ProductsList>
+      <ProductsList>
+        {renderProduct(renderedProducts)}
+      </ProductsList>
       <Pagination count={endPage} page={productPage} onChange={changeProductPageEvent} />
     </>
   );

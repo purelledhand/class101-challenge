@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useSnackbar } from 'notistack';
+import { observer } from 'mobx-react-lite';
+import { useMst } from 'models/Root';
 import CartButton from './CartButton';
+
 
 export const ProductWrapper = styled.div`
   display: flex;
@@ -66,32 +70,38 @@ interface ProductProps {
   coverImage: string;
   price: number;
   score: number;
-  onClick: VoidFunction;
-  cart: Array<string>;
+  availableCoupon?: boolean;
 }
 
 // TODO: 이미지소스 받아오기 전동안 렌더링 해줄 placeholder 셋팅
-// TODO: 마운트 될 때 fadein 효과 추가
-const Product: React.FC<ProductProps> = (props) => {
+// TODO: 마운트 될 때 fadein 효과 추가\
+const Product: React.FC<ProductProps> = observer((props) => {
+  const { cart } = useMst();
+  const { enqueueSnackbar } = useSnackbar();
   const {
-    id, title, coverImage, price, score, onClick, cart,
+    id, title, coverImage, price, score, availableCoupon,
   } = props;
-
   const [isInCart, setIsInCart] = useState<boolean>(false);
 
-  useEffect(() => {
-    // TODO: 탐색 시간복잡도 개선해야함
-    if (cart.indexOf(id) !== -1) {
-      setIsInCart(true);
-    }
-  }, [cart, id]);
+  const onClick = (): void => {
+    cart.addItem({
+      id,
+      title,
+      price,
+      availableCoupon,
+    });
+
+    setIsInCart((prev) => !prev);
+    enqueueSnackbar(cart.listIds);
+    enqueueSnackbar('장바구니에 상품을 담았습니다.');
+  };
 
   return (
     <ProductWrapper>
       <ProductCover src={coverImage} />
       <ProductTitle>{title}</ProductTitle>
       <ProductDisc>
-        <BarChartIcon fontSize='small' />
+        <BarChartIcon fontSize="small" />
         {score}
       </ProductDisc>
       <ProductFooter>
@@ -100,6 +110,6 @@ const Product: React.FC<ProductProps> = (props) => {
       </ProductFooter>
     </ProductWrapper>
   );
-};
+});
 
 export default Product;

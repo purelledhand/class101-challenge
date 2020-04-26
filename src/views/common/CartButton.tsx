@@ -21,13 +21,9 @@ interface CartButtonProps {
 const CartButton: React.FC<CartButtonProps> = (props) => {
   const { isInCart, onClick } = props;
 
-  return isInCart ? (
+  return (
     <IconButton onClick={onClick}>
-      <RemoveShoppingCartOutlinedIcon />
-    </IconButton>
-  ) : (
-    <IconButton onClick={onClick}>
-      <AddShoppingCartIcon />
+      {isInCart ? <RemoveShoppingCartOutlinedIcon /> : <AddShoppingCartIcon />}
     </IconButton>
   );
 };
