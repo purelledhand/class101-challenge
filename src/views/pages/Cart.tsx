@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 
 export const CollectionHeader = styled.div`
@@ -46,7 +47,7 @@ export const CartItem = styled.div`
   height: 100px;
   border-radius: 8px;
   margin-bottom: 25px;
-  box-shadow: 0 3px 10px rgba(143,143,143,0.3);
+  box-shadow: 0 3px 10px rgba(143, 143, 143, 0.3);
 `;
 
 export const CartBill = styled.div`
@@ -54,26 +55,34 @@ export const CartBill = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(143,143,143,0.3);
+  box-shadow: 0 3px 10px rgba(143, 143, 143, 0.3);
 `;
 
-const Cart: React.FC = () => (
-  <>
-    <CollectionHeader>
-      <CollectionTitle>장바구니</CollectionTitle>
-      <CollectionSubTitle>장바구니에는 최대 3개의 상품을 담을 수 있습니다</CollectionSubTitle>
-    </CollectionHeader>
-    <CartContainer>
-      <CartItems>
-        <CartItem />
-        <CartItem />
-        <CartItem />
-      </CartItems>
-      <CartBill />
-    </CartContainer>
-  </>
-);
+const Cart: React.FC = () => {
+  const intl = useIntl();
+
+  return (
+    <>
+      <CollectionHeader>
+        <CollectionTitle>
+          {intl.formatMessage({ id: 'CART_PAGE_TITLE' })}
+        </CollectionTitle>
+        <CollectionSubTitle>
+          {intl.formatMessage({ id: 'CART_PAGE_SUBTITLE' })}
+        </CollectionSubTitle>
+      </CollectionHeader>
+      <CartContainer>
+        <CartItems>
+          <CartItem />
+          <CartItem />
+          <CartItem />
+        </CartItems>
+        <CartBill />
+      </CartContainer>
+    </>
+  );
+};
 
 export default Cart;
