@@ -37,7 +37,7 @@ const Cart: React.FC = observer(() => {
       </Header>
       <CartContainer>
         <CartItems>
-          {renderCartItems}
+          { cart.countItems ? renderCartItems : intl.formatMessage({ id: 'CART_IS_EMPTY' }) }
         </CartItems>
         <CartBill />
       </CartContainer>
@@ -52,14 +52,15 @@ const CartContainer = styled.div`
 `;
 
 const CartItems = styled.div`
-  flex: 2;
+  width: 770px;
   display: flex;
   flex-direction: column;
   margin-right: 40px;
 `;
 
 const CartBill = styled.div`
-  flex: 1;
+  width: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
