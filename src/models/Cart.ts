@@ -36,6 +36,9 @@ export const Cart = types
     get countItems() {
       return self.items.length;
     },
+    get getItems() {
+      return self.items;
+    },
     get totalPrice() {
       return self.items.reduce((sum, entry) => sum + entry.price, 0);
     },

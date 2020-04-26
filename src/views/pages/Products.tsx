@@ -8,9 +8,6 @@ import productItems from 'utils/productItems';
 
 /*
  * NOTE: Pagination Strategy
- * 1. 프로덕트 리스트 개수로부터 총 페이지 계산 후 넘김
- * 2. 페이지 버튼 누르면 현재 페이지 상태 업데이트 (changePaged에서 setRenderedProducts 트리거)
- * 3. renderedProducts 상태 업데이트
  * ISSUE: 페이지 바뀔때마다 cdn에서 이미지 가져와서 인터랙션이 안좋아짐
  * ISSUE: 이미 방문했던 페이지 이미지도 다시 cdn에서 받아옴 (캐싱 도입?)
  * ISSUE: 리렌더링 시 cdn에서 original 이미지 다시 불러오는 문제
@@ -18,19 +15,6 @@ import productItems from 'utils/productItems';
  * cdn에 original로 붙어서 요청감 -> DOM에서 이미지 잡아놔야함
  */
 
-/* NOTE: amountPage 생각해 볼 거리
- * 한 상품페이지에서 받아오는 productItems 배열이 바뀔 수 있는지?
- * 바뀌지 않는다면/바뀐다면 useEffect(fn, [productItems])로 amountPage를 업데이트 해줄 필요가 있을지
- * 그런식으로 관리한다면 컴포넌트 내에 productItems 배열을 state로 가져와야 한다는 단점이 있음 (상태가 많아짐)
- */
-
-/*
- * NOTE: Products Component State
- * 1. renderedProducts: 페이지네이션을 통해 페이지에서 렌더링할 프로덕트 리스트
- * 2. productPage: 현재 프로덕트 페이지
- */
-// TODO: ProductsList 태그 내에서는 렌더링할 프로덕트 리스트를.
-// index를 별도로 저장해서 isInCart 값 바꿀때 인덱스값으로 검사해서 O(1)이 되도록 하는 방식에 반례는 없을지? 정당할지
 interface Product {
   id: string;
   title: string;
@@ -40,18 +24,9 @@ interface Product {
   availableCoupon?: boolean;
 }
 
-interface CartProduct {
-  id: string;
-  title: string;
-  price: number;
-  availableCoupon?: boolean;
-}
-
 const Products: React.FC = () => {
   const defaultPage = 1;
   const sortedProductItems = productItems.sort((a, b) => b.score - a.score);
-  // TODO: global state로 빼주기. 지금은 액션처리용도로만 사용
-  // cart: 장바구니 페이지에 넘길 데이터({id, title, price, availableCoupon})
   // array of product index : 검색 시간복잡도 O(1)
   const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
   const [productPage, setProductPage] = useState<number>(defaultPage);
@@ -59,7 +34,6 @@ const Products: React.FC = () => {
 
   const endPage = Math.ceil(productItems.length / 5);
 
-  // TODO: renaming function
   const changeProductPageEvent = (e: React.ChangeEvent<unknown>, page: number): void => {
     setProductPage(page);
     setRenderedProducts(sortedProductItems.slice((page - 1) * 5, page * 5));
