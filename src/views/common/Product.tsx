@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useSnackbar } from 'notistack';
+import { observer } from 'mobx-react-lite';
+import { useMst } from 'models/Root';
 import CartButton from './CartButton';
+
 
 export const ProductWrapper = styled.div`
   display: flex;
@@ -15,15 +19,21 @@ export const ProductWrapper = styled.div`
 export const ProductCover = styled.img`
   width: 100%;
   height: 160px;
-  object-fit: cover;
   border-radius: 5px;
   margin-bottom: 12px;
+  transition: opacity 0.1s linear 0s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 export const ProductTitle = styled.div`
   font-size: 14px;
   font-weight: normal;
   line-height: 20px;
+  height: 44px;
   letter-spacing: -0.15px;
   color: rgb(27, 28, 29);
   display: -webkit-box;
@@ -39,6 +49,7 @@ export const ProductDisc = styled.div`
   letter-spacing: normal;
   display: flex;
   -webkit-box-align: center;
+  justify-content: center;
   align-items: center;
   color: rgb(133, 138, 141);
 `;
@@ -53,19 +64,65 @@ export const ProductFooter = styled.div`
   font-weight: bold;
 `;
 
-const Product: React.FC = () => (
-  <ProductWrapper>
-    <ProductCover src='https://cdn.class101.net/images/9e7be50d-72f1-4c93-80d6-c6b95b42bd40' />
-    <ProductTitle>평범한 일상에 색을 더하는 시간, 자토의 아이패드 드로잉</ProductTitle>
-    <ProductDisc>
-      <BarChartIcon />
-      300
-    </ProductDisc>
-    <ProductFooter>
-      <div>50,000원</div>
-      <CartButton inCart />
-    </ProductFooter>
-  </ProductWrapper>
-);
+interface ProductProps {
+  id: string;
+  title: string;
+  coverImage: string;
+  price: number;
+  score: number;
+  availableCoupon?: boolean;
+}
+
+// TODO: 이미지소스 받아오기 전동안 렌더링 해줄 placeholder 셋팅
+// TODO: 마운트 될 때 fadein 효과 추가\
+const Product: React.FC<ProductProps> = observer((props) => {
+  const { cart } = useMst();
+  const { enqueueSnackbar } = useSnackbar();
+  const {
+    id, title, coverImage, price, score, availableCoupon,
+  } = props;
+  const [isInCart, setIsInCart] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsInCart(cart.isExist(id));
+  }, [cart, id]);
+
+  const onClick = (): void => {
+    if (isInCart) {
+      // eslint-disable-next-line no-unused-expressions
+      cart.getItem(id)?.remove();
+      enqueueSnackbar('상품을 장바구니에서 제거했습니다.');
+    } else {
+      if (cart.countItems >= 3) {
+        enqueueSnackbar('장바구니가 꽉 찼습니다.');
+        return;
+      }
+      cart.addItem({
+        id,
+        title,
+        price,
+        availableCoupon,
+      });
+      enqueueSnackbar('장바구니에 상품을 담았습니다.');
+    }
+    setIsInCart((prev) => !prev);
+    enqueueSnackbar(cart.listIds);
+  };
+
+  return (
+    <ProductWrapper>
+      <ProductCover src={coverImage} />
+      <ProductTitle>{title}</ProductTitle>
+      <ProductDisc>
+        <BarChartIcon fontSize="small" />
+        {score}
+      </ProductDisc>
+      <ProductFooter>
+        <div>{price}원</div>
+        <CartButton isInCart={isInCart} onClick={onClick} />
+      </ProductFooter>
+    </ProductWrapper>
+  );
+});
 
 export default Product;
