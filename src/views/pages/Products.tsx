@@ -1,63 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+import { Header, Title, SubTitle } from 'views/layout/layoutStyles';
 import Product from 'views/common/Product';
 import Pagination from '@material-ui/lab/Pagination';
 import productItems from 'utils/productItems';
-
-export const CollectionHeader = styled.div`
-  width: 100%;
-  height: 192px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 72px;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-`;
-
-export const CollectionTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  color: rgb(27, 28, 29);
-  line-height: 52px;
-  letter-spacing: -0.6px;
-  margin: 0px;
-`;
-
-export const CollectionSubTitle = styled.div`
-  font-size: 16px;
-  font-weight: normal;
-  color: rgb(62, 64, 66);
-  line-height: 28px;
-  letter-spacing: -0.3px;
-  margin: 0px;
-`;
-
-export const Title = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 54px;
-  margin-bottom: 24px;
-`;
-
-export const ProductsList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 24px;
-
-  & > div {
-    margin-right: 22px;
-  }
-  & > div:nth-child(5n) {
-    margin-right: 0;
-  }
-`;
 
 /*
  * NOTE: Pagination Strategy
@@ -148,22 +95,22 @@ const Products: React.FC = () => {
 
   return (
     <>
-      <CollectionHeader>
-        <CollectionTitle>
+      <Header>
+        <Title>
           {intl.formatMessage({ id: 'PRODUCTS_PAGE_TITLE' })}
-        </CollectionTitle>
-        <CollectionSubTitle>
+        </Title>
+        <SubTitle>
           {intl.formatMessage({ id: 'PRODUCTS_PAGE_SUBTITLE' })}
-        </CollectionSubTitle>
-      </CollectionHeader>
-      <Title>
+        </SubTitle>
+      </Header>
+      <ProductListHeader>
         <h2>
           {intl.formatMessage({ id: 'CLASS_LIST' })}
         </h2>
         <div>
           {intl.formatMessage({ id: 'ORDER_BY_SCORE' })}
         </div>
-      </Title>
+      </ProductListHeader>
       <ProductsList>
         {renderProduct(renderedProducts)}
       </ProductsList>
@@ -171,5 +118,31 @@ const Products: React.FC = () => {
     </>
   );
 };
+
+export const ProductListHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 54px;
+  margin-bottom: 24px;
+`;
+
+export const ProductsList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 24px;
+
+  & > div {
+    margin-right: 22px;
+  }
+  & > div:nth-child(5n) {
+    margin-right: 0;
+  }
+`;
 
 export default Products;

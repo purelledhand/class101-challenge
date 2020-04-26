@@ -1,33 +1,33 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { Header, Title, SubTitle } from 'views/layout/layoutStyles';
 import styled from 'styled-components';
 
-export const CollectionHeader = styled.div`
-  width: 100%;
-  height: 192px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 72px;
-  box-sizing: border-box;
-`;
 
-export const CollectionTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  color: rgb(27, 28, 29);
-  line-height: 52px;
-  letter-spacing: -0.6px;
-  margin: 0px;
-`;
+const Cart: React.FC = () => {
+  const intl = useIntl();
 
-export const CollectionSubTitle = styled.div`
-  font-size: 16px;
-  font-weight: normal;
-  color: rgb(62, 64, 66);
-  line-height: 28px;
-  letter-spacing: -0.3px;
-  margin: 0px;
-`;
+  return (
+    <>
+      <Header>
+        <Title>
+          {intl.formatMessage({ id: 'CART_PAGE_TITLE' })}
+        </Title>
+        <SubTitle>
+          {intl.formatMessage({ id: 'CART_PAGE_SUBTITLE' })}
+        </SubTitle>
+      </Header>
+      <CartContainer>
+        <CartItems>
+          <CartItem />
+          <CartItem />
+          <CartItem />
+        </CartItems>
+        <CartBill />
+      </CartContainer>
+    </>
+  );
+};
 
 export const CartContainer = styled.div`
   width: 100%;
@@ -59,30 +59,5 @@ export const CartBill = styled.div`
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(143, 143, 143, 0.3);
 `;
-
-const Cart: React.FC = () => {
-  const intl = useIntl();
-
-  return (
-    <>
-      <CollectionHeader>
-        <CollectionTitle>
-          {intl.formatMessage({ id: 'CART_PAGE_TITLE' })}
-        </CollectionTitle>
-        <CollectionSubTitle>
-          {intl.formatMessage({ id: 'CART_PAGE_SUBTITLE' })}
-        </CollectionSubTitle>
-      </CollectionHeader>
-      <CartContainer>
-        <CartItems>
-          <CartItem />
-          <CartItem />
-          <CartItem />
-        </CartItems>
-        <CartBill />
-      </CartContainer>
-    </>
-  );
-};
 
 export default Cart;
