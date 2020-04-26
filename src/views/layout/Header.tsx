@@ -1,25 +1,37 @@
 import React from 'react';
 import Path from 'routes/Path';
+import { class101LogoUrl, class101LogoAlt } from 'utils/consts';
 import { NavLink } from 'react-router-dom';
+import Badge from '@material-ui/core/Badge';
 import styled from 'styled-components';
+import { observer } from 'mobx-react-lite';
+import { useMst } from 'models/Root';
+import { useIntl } from 'react-intl';
 
-const Header: React.FC = () => (
-  <Wrapper>
-    <Container>
-      <NavLink to={Path.Home}>
-        <img src='https://class101.net/images/class101-main-logo.svg' alt='class101 main logo' />
-      </NavLink>
-      <Navigator>
-        <NavLink to={Path.Products}>
-          클래스
+const Header: React.FC = observer(() => {
+  const { cart } = useMst();
+  const intl = useIntl();
+
+  return (
+    <Wrapper>
+      <Container>
+        <NavLink to={Path.Home}>
+          <img src={class101LogoUrl} alt={class101LogoAlt} />
         </NavLink>
-        <NavLink to={Path.Cart}>
-          장바구니
-        </NavLink>
-      </Navigator>
-    </Container>
-  </Wrapper>
-);
+        <Navigator>
+          <NavLink to={Path.Products}>
+            {intl.formatMessage({ id: 'NAVIGATOR_TO_PRODUCTS' })}
+          </NavLink>
+          <Badge badgeContent={cart.countItems} color="secondary">
+            <NavLink to={Path.Cart}>
+              {intl.formatMessage({ id: 'NAVIGATOR_TO_CART' })}
+            </NavLink>
+          </Badge>
+        </Navigator>
+      </Container>
+    </Wrapper>
+  );
+});
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,11 +55,11 @@ const Container = styled.div`
 
 const Navigator = styled.div`
   & a {
-    margin-right: 10px;
+    margin-right: 12px;
   }
 
-  & a:last-child {
-    margin-right: 0;
+  & .MuiBadge-root>a {
+    margin-right: 4px;
   }
 `;
 
