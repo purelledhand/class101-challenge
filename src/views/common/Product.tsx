@@ -84,16 +84,25 @@ const Product: React.FC<ProductProps> = observer((props) => {
   const [isInCart, setIsInCart] = useState<boolean>(false);
 
   const onClick = (): void => {
-    cart.addItem({
-      id,
-      title,
-      price,
-      availableCoupon,
-    });
-
+    if (isInCart) {
+      // eslint-disable-next-line no-unused-expressions
+      cart.getItem(id)?.remove();
+      enqueueSnackbar('상품을 장바구니에서 제거했습니다.');
+    } else {
+      if (cart.countItems >= 3) {
+        enqueueSnackbar('장바구니가 꽉 찼습니다.');
+        return;
+      }
+      cart.addItem({
+        id,
+        title,
+        price,
+        availableCoupon,
+      });
+      enqueueSnackbar('장바구니에 상품을 담았습니다.');
+    }
     setIsInCart((prev) => !prev);
     enqueueSnackbar(cart.listIds);
-    enqueueSnackbar('장바구니에 상품을 담았습니다.');
   };
 
   return (

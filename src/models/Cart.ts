@@ -39,7 +39,11 @@ export const Cart = types
     get totalPrice() {
       return self.items.reduce((sum, entry) => sum + entry.price, 0);
     },
+    // TODO: 확인용으로 잠깐 만들어놓은 메소드, 다쓰면 지우기.
     get listIds() {
-      return self.items.map((item) => item.id);
+      return self.items.map((item) => item.id).join(',');
+    },
+    getItem(id: string) {
+      return self.items.find((item) => item.id === id);
     },
   }));
