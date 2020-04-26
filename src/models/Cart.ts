@@ -46,4 +46,7 @@ export const Cart = types
     getItem(id: string) {
       return self.items.find((item) => item.id === id);
     },
+    isExist(id: string) {
+      return self.items.map((item) => item.id).indexOf(id) !== -1;
+    },
   }));

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import { useSnackbar } from 'notistack';
@@ -82,6 +82,10 @@ const Product: React.FC<ProductProps> = observer((props) => {
     id, title, coverImage, price, score, availableCoupon,
   } = props;
   const [isInCart, setIsInCart] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsInCart(cart.isExist(id));
+  }, [cart, id]);
 
   const onClick = (): void => {
     if (isInCart) {
