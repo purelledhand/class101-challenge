@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { FormControlLabel, Checkbox, IconButton } from '@material-ui/core';
 import { Delete, Add, Remove } from '@material-ui/icons';
+import { useMst } from 'models/Root';
 
 interface CartItemProps {
   id: string;
@@ -12,7 +13,8 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = (props) => {
-  const { title, price, availableCoupon } = props;
+  const { id, title, price, availableCoupon } = props;
+  const { cart } = useMst();
   const intl = useIntl();
   const [checked, setChecked] = useState(true);
 
@@ -38,7 +40,7 @@ const CartItem: React.FC<CartItemProps> = (props) => {
             {intl.formatMessage({ id: 'KOREAN_WON' })}
           </div>
           <IconButton>
-            <Delete />
+            <Delete onClick={() => cart.getItem(id)?.remove()} />
           </IconButton>
         </RightSide>
       </Row>
