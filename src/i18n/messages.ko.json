@@ -10,8 +10,11 @@
   "CLASS_LIST": "클래스 목록",
   "ORDER_BY_SCORE": "평점순",
   "KOREAN_WON": "원",
+  "QUANTITY": "수량",
 
   "ADDED_TO_CART": "장바구니에 상품을 담았습니다.",
   "REMOVED_FROM_CART": "상품을 장바구니에서 제거했습니다.",
-  "CART_IS_FULL": "장바구니가 꽉 찼습니다."
+  "CART_IS_FULL": "장바구니가 꽉 찼습니다.",
+
+  "COUPON_IS_NOT_AVAILABLE": "쿠폰적용이 불가능한 상품입니다."
 }
