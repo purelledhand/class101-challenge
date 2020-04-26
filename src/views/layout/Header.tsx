@@ -1,5 +1,6 @@
 import React from 'react';
 import Path from 'routes/Path';
+import { class101LogoUrl, class101LogoAlt } from 'utils/consts';
 import { NavLink } from 'react-router-dom';
 import Badge from '@material-ui/core/Badge';
 import styled from 'styled-components';
@@ -15,7 +16,7 @@ const Header: React.FC = observer(() => {
     <Wrapper>
       <Container>
         <NavLink to={Path.Home}>
-          <img src='https://class101.net/images/class101-main-logo.svg' alt='class101 main logo' />
+          <img src={class101LogoUrl} alt={class101LogoAlt} />
         </NavLink>
         <Navigator>
           <NavLink to={Path.Products}>
