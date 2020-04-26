@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { Header, Title, SubTitle } from 'views/layout/layoutStyles';
 import styled from 'styled-components';
 
-
 const Cart: React.FC = () => {
   const intl = useIntl();
 
@@ -11,10 +10,10 @@ const Cart: React.FC = () => {
     <>
       <Header>
         <Title>
-          {intl.formatMessage({ id: 'CART_PAGE_TITLE' })}
+          {intl.formatMessage({ id: 'PAGE_TITLE_CART' })}
         </Title>
         <SubTitle>
-          {intl.formatMessage({ id: 'CART_PAGE_SUBTITLE' })}
+          {intl.formatMessage({ id: 'PAGE_SUBTITLE_CART' })}
         </SubTitle>
       </Header>
       <CartContainer>

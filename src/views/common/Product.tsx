@@ -35,10 +35,10 @@ const Product: React.FC<ProductProps> = observer((props) => {
     if (isInCart) {
       // eslint-disable-next-line no-unused-expressions
       cart.getItem(id)?.remove();
-      enqueueSnackbar(intl.formatMessage({ id: 'REMOVE_FROM_CART' }));
+      enqueueSnackbar(intl.formatMessage({ id: 'REMOVED_FROM_CART' }));
     } else {
       if (cart.countItems >= 3) {
-        enqueueSnackbar(intl.formatMessage({ id: 'EXCEED_CART_COVERAGE' }));
+        enqueueSnackbar(intl.formatMessage({ id: 'CART_IS_FULL' }));
         return;
       }
       cart.addItem({
@@ -47,7 +47,7 @@ const Product: React.FC<ProductProps> = observer((props) => {
         price,
         availableCoupon,
       });
-      enqueueSnackbar(intl.formatMessage({ id: 'ADD_TO_CART' }));
+      enqueueSnackbar(intl.formatMessage({ id: 'ADDED_TO_CART' }));
     }
     setIsInCart((prev) => !prev);
   };

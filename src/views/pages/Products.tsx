@@ -97,10 +97,10 @@ const Products: React.FC = () => {
     <>
       <Header>
         <Title>
-          {intl.formatMessage({ id: 'PRODUCTS_PAGE_TITLE' })}
+          {intl.formatMessage({ id: 'PAGE_TITLE_PRODUCTS' })}
         </Title>
         <SubTitle>
-          {intl.formatMessage({ id: 'PRODUCTS_PAGE_SUBTITLE' })}
+          {intl.formatMessage({ id: 'PAGE_SUBTITLE_PRODUCTS' })}
         </SubTitle>
       </Header>
       <ProductListHeader>
