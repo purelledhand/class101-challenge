@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useIntl } from 'react-intl';
 import { useSnackbar } from 'notistack';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
@@ -77,6 +78,7 @@ interface ProductProps {
 // TODO: 마운트 될 때 fadein 효과 추가\
 const Product: React.FC<ProductProps> = observer((props) => {
   const { cart } = useMst();
+  const intl = useIntl();
   const { enqueueSnackbar } = useSnackbar();
   const {
     id, title, coverImage, price, score, availableCoupon,
@@ -91,10 +93,10 @@ const Product: React.FC<ProductProps> = observer((props) => {
     if (isInCart) {
       // eslint-disable-next-line no-unused-expressions
       cart.getItem(id)?.remove();
-      enqueueSnackbar('상품을 장바구니에서 제거했습니다.');
+      enqueueSnackbar(intl.formatMessage({ id: 'REMOVE_FROM_CART' }));
     } else {
       if (cart.countItems >= 3) {
-        enqueueSnackbar('장바구니가 꽉 찼습니다.');
+        enqueueSnackbar(intl.formatMessage({ id: 'EXCEED_CART_COVERAGE' }));
         return;
       }
       cart.addItem({
@@ -103,10 +105,10 @@ const Product: React.FC<ProductProps> = observer((props) => {
         price,
         availableCoupon,
       });
-      enqueueSnackbar('장바구니에 상품을 담았습니다.');
+      enqueueSnackbar(intl.formatMessage({ id: 'ADD_TO_CART' }));
     }
     setIsInCart((prev) => !prev);
-    enqueueSnackbar(cart.listIds);
+    // enqueueSnackbar(cart.listIds);
   };
 
   return (
@@ -118,7 +120,10 @@ const Product: React.FC<ProductProps> = observer((props) => {
         {score}
       </ProductDisc>
       <ProductFooter>
-        <div>{price}원</div>
+        <div>
+          {price}
+          {intl.formatMessage({ id: 'KOREAN_WON' })}
+        </div>
         <CartButton isInCart={isInCart} onClick={onClick} />
       </ProductFooter>
     </ProductWrapper>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 import Product from 'views/common/Product';
 import Pagination from '@material-ui/lab/Pagination';
@@ -107,6 +108,7 @@ const Products: React.FC = () => {
   // array of product index : 검색 시간복잡도 O(1)
   const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
   const [productPage, setProductPage] = useState<number>(defaultPage);
+  const intl = useIntl();
 
   const endPage = Math.ceil(productItems.length / 5);
 
@@ -147,12 +149,20 @@ const Products: React.FC = () => {
   return (
     <>
       <CollectionHeader>
-        <CollectionTitle>방 안에서 즐기는 봄 클래스</CollectionTitle>
-        <CollectionSubTitle>사각사각 바느질부터 봄풍경 그리기 까지</CollectionSubTitle>
+        <CollectionTitle>
+          {intl.formatMessage({ id: 'PRODUCTS_PAGE_TITLE' })}
+        </CollectionTitle>
+        <CollectionSubTitle>
+          {intl.formatMessage({ id: 'PRODUCTS_PAGE_SUBTITLE' })}
+        </CollectionSubTitle>
       </CollectionHeader>
       <Title>
-        <h2>클래스 목록</h2>
-        <div>평점순</div>
+        <h2>
+          {intl.formatMessage({ id: 'CLASS_LIST' })}
+        </h2>
+        <div>
+          {intl.formatMessage({ id: 'ORDER_BY_SCORE' })}
+        </div>
       </Title>
       <ProductsList>
         {renderProduct(renderedProducts)}
