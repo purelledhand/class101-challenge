@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useIntl } from 'react-intl';
+import { useSnackbar } from 'notistack';
+import { observer } from 'mobx-react-lite';
+import { useMst } from 'models/Root';
 import CartButton from './CartButton';
+
 
 export const ProductWrapper = styled.div`
   display: flex;
@@ -61,33 +66,68 @@ export const ProductFooter = styled.div`
 `;
 
 interface ProductProps {
+  id: string;
   title: string;
   coverImage: string;
   price: number;
   score: number;
+  availableCoupon?: boolean;
 }
 
 // TODO: 이미지소스 받아오기 전동안 렌더링 해줄 placeholder 셋팅
-// TODO: 마운트 될 때 fadein 효과 추가
-const Product: React.FC<ProductProps> = (props) => {
+// TODO: 마운트 될 때 fadein 효과 추가\
+const Product: React.FC<ProductProps> = observer((props) => {
+  const { cart } = useMst();
+  const intl = useIntl();
+  const { enqueueSnackbar } = useSnackbar();
   const {
-    title, coverImage, price, score,
+    id, title, coverImage, price, score, availableCoupon,
   } = props;
+  const [isInCart, setIsInCart] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsInCart(cart.isExist(id));
+  }, [cart, id]);
+
+  const onClick = (): void => {
+    if (isInCart) {
+      // eslint-disable-next-line no-unused-expressions
+      cart.getItem(id)?.remove();
+      enqueueSnackbar(intl.formatMessage({ id: 'REMOVE_FROM_CART' }));
+    } else {
+      if (cart.countItems >= 3) {
+        enqueueSnackbar(intl.formatMessage({ id: 'EXCEED_CART_COVERAGE' }));
+        return;
+      }
+      cart.addItem({
+        id,
+        title,
+        price,
+        availableCoupon,
+      });
+      enqueueSnackbar(intl.formatMessage({ id: 'ADD_TO_CART' }));
+    }
+    setIsInCart((prev) => !prev);
+    // enqueueSnackbar(cart.listIds);
+  };
 
   return (
     <ProductWrapper>
       <ProductCover src={coverImage} />
       <ProductTitle>{title}</ProductTitle>
       <ProductDisc>
-        <BarChartIcon fontSize='small' />
+        <BarChartIcon fontSize="small" />
         {score}
       </ProductDisc>
       <ProductFooter>
-        <div>{price}원</div>
-        <CartButton inCart />
+        <div>
+          {price}
+          {intl.formatMessage({ id: 'KOREAN_WON' })}
+        </div>
+        <CartButton isInCart={isInCart} onClick={onClick} />
       </ProductFooter>
     </ProductWrapper>
   );
-};
+});
 
 export default Product;
