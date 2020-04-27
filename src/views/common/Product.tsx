@@ -46,6 +46,8 @@ const Product: React.FC<ProductProps> = observer((props) => {
         title,
         price,
         availableCoupon,
+        quantity: 1,
+        checkOrder: true,
       });
       enqueueSnackbar(intl.formatMessage({ id: 'ADDED_TO_CART' }));
     }

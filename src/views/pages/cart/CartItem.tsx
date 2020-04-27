@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { FormControlLabel, Checkbox, IconButton } from '@material-ui/core';
 import { Delete, Add, Remove } from '@material-ui/icons';
+import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
 
 interface CartItemProps {
@@ -10,29 +11,39 @@ interface CartItemProps {
   title: string;
   price: number;
   availableCoupon: boolean;
+  checkOrder: boolean;
+  quantity: number;
 }
 
-const CartItem: React.FC<CartItemProps> = (props) => {
-  const { id, title, price, availableCoupon } = props;
+const CartItem: React.FC<CartItemProps> = observer((props) => {
+  const { id, title, price, availableCoupon, checkOrder, quantity } = props;
   const { cart } = useMst();
   const intl = useIntl();
-  const [checked, setChecked] = useState(true);
+
+  const handleToggleOrder = () => {
+    // eslint-disable-next-line no-unused-expressions
+    cart.getItem(id)?.toggleOrder();
+    // eslint-disable-next-line no-console
+    console.log(cart.getItem(id));
+  };
 
   return (
     <Wrapper>
       <Row>
         <FormControlLabel
-          control={<Checkbox checked={checked} onChange={() => setChecked((prev) => !prev)} />}
+          control={
+            <Checkbox checked={checkOrder} onChange={handleToggleOrder} />
+          }
           label={title}
         />
         <RightSide>
           <div>
             <IconButton>
-              <Remove fontSize='small' />
+              <Remove fontSize="small" />
             </IconButton>
-            1
+            {quantity}
             <IconButton>
-              <Add fontSize='small' />
+              <Add fontSize="small" />
             </IconButton>
           </div>
           <div>
@@ -45,13 +56,11 @@ const CartItem: React.FC<CartItemProps> = (props) => {
         </RightSide>
       </Row>
       {availableCoupon ? null : (
-        <MessageRow>
-          {intl.formatMessage({ id: 'COUPON_IS_NOT_AVAILABLE' })}
-        </MessageRow>
+        <MessageRow>{intl.formatMessage({ id: 'COUPON_IS_NOT_AVAILABLE' })}</MessageRow>
       )}
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   display: flex;
