@@ -108,6 +108,8 @@ const RightSide = styled(Row)`
 const MessageRow = styled(Row)`
   font-size: 12px;
   color: #dc004e;
+  margin-top: -12px;
+  padding-left: 30px;
 `;
 
 export default CartItem;

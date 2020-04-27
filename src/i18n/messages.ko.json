@@ -10,7 +10,12 @@
   "CLASS_LIST": "클래스 목록",
   "ORDER_BY_SCORE": "평점순",
   "KOREAN_WON": "원",
+  "PRODUCT_UNIT": "개",
   "QUANTITY": "수량",
+  "ORDER_DETAILS": "주문 명세서",
+  "ORDER_PRODUCTS": "상품 내역",
+  "ORDER_DISCOUNTS": "할인 내역",
+  "ORDER": "주문하기",
 
   "ADDED_TO_CART": "장바구니에 상품을 담았습니다.",
   "REMOVED_FROM_CART": "상품을 장바구니에서 제거했습니다.",
