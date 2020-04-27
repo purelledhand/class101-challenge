@@ -1,10 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useSnackbar } from 'notistack';
 import styled from 'styled-components';
 import { FormControlLabel, Checkbox, IconButton } from '@material-ui/core';
 import { Delete, Add, Remove } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
+import { maximumQuantity } from 'utils/consts';
 
 interface CartItemProps {
   id: string;
@@ -19,12 +21,29 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
   const { id, title, price, availableCoupon, checkOrder, quantity } = props;
   const { cart } = useMst();
   const intl = useIntl();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleToggleOrder = () => {
     // eslint-disable-next-line no-unused-expressions
     cart.getItem(id)?.toggleOrder();
     // eslint-disable-next-line no-console
     console.log(cart.getItem(id));
+  };
+
+  const handleIncreaseQuantity = () => {
+    if (quantity >= 10) {
+      enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MAXIMUM_QUANTITY' }, { maximumQuantity }));
+      return;
+    }
+    cart.getItem(id)?.increaseQuantity();
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (quantity <= 1) {
+      enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MINIMUM_QUANTITY' }));
+      return;
+    }
+    cart.getItem(id)?.decreaseQuantity();
   };
 
   return (
@@ -38,11 +57,11 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
         />
         <RightSide>
           <div>
-            <IconButton>
+            <IconButton onClick={handleDecreaseQuantity}>
               <Remove fontSize="small" />
             </IconButton>
             {quantity}
-            <IconButton>
+            <IconButton onClick={handleIncreaseQuantity}>
               <Add fontSize="small" />
             </IconButton>
           </div>

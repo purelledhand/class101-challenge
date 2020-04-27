@@ -23,6 +23,12 @@ export const CartItem = types
     toggleOrder() {
       self.checkOrder = !self.checkOrder;
     },
+    increaseQuantity() {
+      self.quantity += 1;
+    },
+    decreaseQuantity() {
+      self.quantity -= 1;
+    },
   }));
 
 export const Cart = types
