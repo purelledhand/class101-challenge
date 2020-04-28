@@ -25,11 +25,12 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 `;
 
 const Row = styled.div`
@@ -40,8 +41,12 @@ const Row = styled.div`
 `;
 
 const ProductTitle = styled(Row)`
-  font-size: 12px;
   color: #dc004e;
+  display: inline-block;
+  width: 236px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default OrderItem;

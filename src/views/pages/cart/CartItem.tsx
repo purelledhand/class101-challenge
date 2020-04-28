@@ -49,12 +49,14 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
   return (
     <Wrapper>
       <Row>
-        <FormControlLabel
-          control={
-            <Checkbox checked={checkOrder} onChange={handleToggleOrder} />
-          }
-          label={title}
-        />
+        <LeftSide>
+          <FormControlLabel
+            control={
+              <Checkbox checked={checkOrder} onChange={handleToggleOrder} />
+            }
+            label={title}
+          />
+        </LeftSide>
         <RightSide>
           <div>
             <IconButton onClick={handleDecreaseQuantity}>
@@ -99,6 +101,16 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const LeftSide = styled(Row)`
+  & .MuiFormControlLabel-label {
+    width: 400px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 `;
 
 const RightSide = styled(Row)`
