@@ -56,10 +56,25 @@ export const Cart = types
     get totalPrice() {
       return this.orderItems.reduce((sum, entry) => sum + (entry.price * entry.quantity), 0);
     },
+    get availableCouponItems() {
+      return self.items.filter((item) => item.availableCoupon);
+    },
     getItem(id: string) {
       return self.items.find((item) => item.id === id);
     },
     isExist(id: string) {
       return self.items.map((item) => item.id).indexOf(id) !== -1;
+    },
+    discountPrice(type: string, amount: number) {
+      const totalCouponItemsPrice = this.availableCouponItems.reduce(
+        (sum, entry) => sum + (entry.price * entry.quantity),
+        0,
+      );
+
+      switch (type) {
+        case 'rate': return Number(totalCouponItemsPrice * (amount / 100));
+        case 'amount': return totalCouponItemsPrice < amount ? totalCouponItemsPrice : amount;
+        default: throw Error;
+      }
     },
   }));
