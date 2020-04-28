@@ -32,9 +32,10 @@ const CartItem: React.FC = observer(() => {
             <OrderItem title={title} price={price} quantity={quantity} />
           ))}
         </div>
-        <Row>
-          {cart.totalPrice} {intl.formatMessage({ id: 'KOREAN_WON' })}
-        </Row>
+        <ContentsFooter>
+          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice}
+          {intl.formatMessage({ id: 'KOREAN_WON' })}
+        </ContentsFooter>
       </Contents>
       <Footer>
         <Button fullWidth>
@@ -70,10 +71,11 @@ const Header = styled.h2`
 const ContentsTitle = styled(Header)`
   font-size: 18px;
   font-weight: 400;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
 `;
 
 const Contents = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -82,16 +84,19 @@ const Contents = styled.div`
 
 const Footer = styled.div`
   width: 100%;
-  & button{
-    height: 40px;
+  &>.MuiButton-root{
+    background-color: #F7F7F7;
   }
 `;
 
-const Row = styled.div`
+const ContentsFooter = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 export default CartItem;
