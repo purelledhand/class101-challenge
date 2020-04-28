@@ -50,13 +50,13 @@ export const Cart = types
     get getItems() {
       return self.items;
     },
-    get orderItems() {
+    get checkedItems() {
       return self.items.filter((item) => item.checkOrder);
     },
     get totalPrice() {
-      return this.orderItems.reduce((sum, entry) => sum + (entry.price * entry.quantity), 0);
+      return this.checkedItems.reduce((sum, entry) => (sum + (entry.price * entry.quantity)), 0);
     },
-    get availableCouponItems() {
+    get couponApplicableItems() {
       return self.items.filter((item) => item.availableCoupon);
     },
     getItem(id: string) {
@@ -66,15 +66,15 @@ export const Cart = types
       return self.items.map((item) => item.id).indexOf(id) !== -1;
     },
     discountPrice(type: string, amount: number) {
-      const totalCouponItemsPrice = this.availableCouponItems.reduce(
-        (sum, entry) => sum + (entry.price * entry.quantity),
+      const totalCouponItemsPrice = this.couponApplicableItems.reduce(
+        (sum, entry) => (sum + (entry.price * entry.quantity)),
         0,
       );
 
       switch (type) {
         case 'rate': return Number(totalCouponItemsPrice * (amount / 100));
         case 'amount': return totalCouponItemsPrice < amount ? totalCouponItemsPrice : amount;
-        default: throw Error;
+        default: throw Error(/* TODO: Write error message. */);
       }
     },
   }));

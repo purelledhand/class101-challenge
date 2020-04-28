@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
@@ -10,9 +10,18 @@ const CartItem: React.FC = observer(() => {
   const { cart } = useMst();
   const intl = useIntl();
 
-  const renderOrderItems = () => cart.orderItems.map(({ title, price, quantity }) => (
-    <OrderItem title={title} price={price} quantity={quantity} />
-  ));
+  const renderOrderItems = cart.getItems.map((item) => {
+    const { title, price, quantity } = item;
+
+    return (
+      <OrderItem
+        title={title}
+        price={price}
+        quantity={quantity}
+      />
+    );
+  });
+
 
   return (
     <Wrapper>
@@ -32,7 +41,7 @@ const CartItem: React.FC = observer(() => {
           </ContentsTitle>
         </div>
         <ContentsFooter>
-          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice}
+          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice - cart.discountPrice('rate', 10)}
           {intl.formatMessage({ id: 'KOREAN_WON' })}
         </ContentsFooter>
       </Contents>

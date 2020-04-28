@@ -12,9 +12,7 @@ const Cart: React.FC = observer(() => {
   const intl = useIntl();
 
   const renderCartItems = cart.getItems.map((item) => {
-    const {
-      id, title, price, availableCoupon, checkOrder, quantity,
-    } = item;
+    const { id, title, price, availableCoupon, checkOrder, quantity } = item;
 
     return (
       <CartItem
