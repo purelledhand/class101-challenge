@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
 import styled from 'styled-components';
 import CartItem from './cart/CartItem';
+import Bill from './cart/Bill';
 
 const Cart: React.FC = observer(() => {
   const { cart } = useMst();
@@ -12,7 +13,7 @@ const Cart: React.FC = observer(() => {
 
   const renderCartItems = cart.getItems.map((item) => {
     const {
-      id, title, price, availableCoupon,
+      id, title, price, availableCoupon, checkOrder, quantity,
     } = item;
 
     return (
@@ -21,6 +22,8 @@ const Cart: React.FC = observer(() => {
         title={title}
         price={price}
         availableCoupon={availableCoupon}
+        checkOrder={checkOrder}
+        quantity={quantity}
       />
     );
   });
@@ -39,7 +42,7 @@ const Cart: React.FC = observer(() => {
         <CartItems>
           { cart.countItems ? renderCartItems : intl.formatMessage({ id: 'CART_IS_EMPTY' }) }
         </CartItems>
-        <CartBill />
+        <Bill />
       </CartContainer>
     </>
   );
@@ -56,17 +59,6 @@ const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 40px;
-`;
-
-const CartBill = styled.div`
-  width: 400px;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(143, 143, 143, 0.3);
 `;
 
 export default Cart;
