@@ -12,11 +12,22 @@ export const CartItem = types
     title: types.string,
     price: types.number,
     availableCoupon: types.optional(types.boolean, true),
+    checkOrder: types.boolean,
+    quantity: types.number,
   })
   .actions((self) => ({
     remove() {
       // eslint-disable-next-line no-use-before-define
       getParent<typeof Cart>(self, 2).removeItem(self);
+    },
+    toggleOrder() {
+      self.checkOrder = !self.checkOrder;
+    },
+    increaseQuantity() {
+      self.quantity += 1;
+    },
+    decreaseQuantity() {
+      self.quantity -= 1;
     },
   }));
 
@@ -39,12 +50,11 @@ export const Cart = types
     get getItems() {
       return self.items;
     },
-    get totalPrice() {
-      return self.items.reduce((sum, entry) => sum + entry.price, 0);
+    get orderItems() {
+      return self.items.filter((item) => item.checkOrder);
     },
-    // TODO: 확인용으로 잠깐 만들어놓은 메소드, 다쓰면 지우기.
-    get listIds() {
-      return self.items.map((item) => item.id).join(',');
+    get totalPrice() {
+      return this.orderItems.reduce((sum, entry) => sum + (entry.price * entry.quantity), 0);
     },
     getItem(id: string) {
       return self.items.find((item) => item.id === id);
