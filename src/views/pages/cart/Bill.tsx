@@ -10,6 +10,10 @@ const CartItem: React.FC = observer(() => {
   const { cart } = useMst();
   const intl = useIntl();
 
+  const renderOrderItems = () => cart.orderItems.map(({ title, price, quantity }) => (
+    <OrderItem title={title} price={price} quantity={quantity} />
+  ));
+
   return (
     <Wrapper>
       <Header>
@@ -20,17 +24,12 @@ const CartItem: React.FC = observer(() => {
           <ContentsTitle>
             {intl.formatMessage({ id: 'ORDER_PRODUCTS' })}
           </ContentsTitle>
-          {cart.orderItems.map(({ title, price, quantity }) => (
-            <OrderItem title={title} price={price} quantity={quantity} />
-          ))}
+          {renderOrderItems}
         </div>
         <div>
           <ContentsTitle>
             {intl.formatMessage({ id: 'ORDER_DISCOUNTS' })}
           </ContentsTitle>
-          {cart.orderItems.map(({ title, price, quantity }) => (
-            <OrderItem title={title} price={price} quantity={quantity} />
-          ))}
         </div>
         <ContentsFooter>
           {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice}
