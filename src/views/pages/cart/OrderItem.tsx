@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+import addComma from 'utils/addComma';
 
 interface OrderItemProps {
   title: string;
@@ -17,7 +18,7 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
       <ProductTitle>
         {title}
       </ProductTitle>
-      {price}{intl.formatMessage({ id: 'KOREAN_WON' })}x
+      {addComma(price)}{intl.formatMessage({ id: 'KOREAN_WON' })}x
       {quantity}{intl.formatMessage({ id: 'PRODUCT_UNIT' })}
     </Wrapper>
   );

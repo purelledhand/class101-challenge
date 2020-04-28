@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
 import Button from '@material-ui/core/Button';
+import addComma from 'utils/addComma';
 import OrderItem from './OrderItem';
 
 const CartItem: React.FC = observer(() => {
@@ -21,7 +22,6 @@ const CartItem: React.FC = observer(() => {
       />
     );
   });
-
 
   return (
     <Wrapper>
@@ -41,7 +41,7 @@ const CartItem: React.FC = observer(() => {
           </ContentsTitle>
         </div>
         <ContentsFooter>
-          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice - cart.discountPrice('rate', 10)}
+          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {addComma(cart.totalPrice - cart.discountPrice('rate', 10))}
           {intl.formatMessage({ id: 'KOREAN_WON' })}
         </ContentsFooter>
       </Contents>

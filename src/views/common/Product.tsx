@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { useSnackbar } from 'notistack';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
+import addComma from 'utils/addComma';
 import CartButton from './CartButton';
 
 interface ProductProps {
@@ -62,7 +63,7 @@ const Product: React.FC<ProductProps> = observer((props) => {
       </Disc>
       <Footer>
         <div>
-          {price}
+          {addComma(price)}
           {intl.formatMessage({ id: 'KOREAN_WON' })}
         </div>
         <CartButton isInCart={isInCart} onClick={onClick} />

@@ -7,6 +7,7 @@ import { Delete, Add, Remove } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
 import { maximumQuantity } from 'utils/consts';
+import addComma from 'utils/addComma';
 
 interface CartItemProps {
   id: string;
@@ -51,9 +52,7 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
       <Row>
         <LeftSide>
           <FormControlLabel
-            control={
-              <Checkbox checked={checkOrder} onChange={handleToggleOrder} />
-            }
+            control={<Checkbox checked={checkOrder} onChange={handleToggleOrder} />}
             label={title}
           />
         </LeftSide>
@@ -68,7 +67,7 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
             </IconButton>
           </div>
           <div>
-            {price}
+            {addComma(price)}
             {intl.formatMessage({ id: 'KOREAN_WON' })}
           </div>
           <IconButton>
@@ -77,7 +76,9 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
         </RightSide>
       </Row>
       {availableCoupon ? null : (
-        <MessageRow>{intl.formatMessage({ id: 'COUPON_IS_NOT_AVAILABLE' })}</MessageRow>
+        <MessageRow>
+          {intl.formatMessage({ id: 'COUPON_IS_NOT_AVAILABLE' })}
+        </MessageRow>
       )}
     </Wrapper>
   );

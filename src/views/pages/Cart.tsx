@@ -6,6 +6,7 @@ import { useMst } from 'models/Root';
 import styled from 'styled-components';
 import CartItem from './cart/CartItem';
 import Bill from './cart/Bill';
+import addComma from 'utils/addComma';
 
 const Cart: React.FC = observer(() => {
   const { cart } = useMst();
@@ -37,9 +38,15 @@ const Cart: React.FC = observer(() => {
         </SubTitle>
       </Header>
       <CartContainer>
-        <CartItems>
-          { cart.countItems ? renderCartItems : intl.formatMessage({ id: 'CART_IS_EMPTY' }) }
-        </CartItems>
+        <CartContents>
+          <CartItems>
+            { cart.countItems ? renderCartItems : intl.formatMessage({ id: 'CART_IS_EMPTY' }) }
+          </CartItems>
+          <CartFooter>
+            {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {addComma(cart.totalPrice - cart.discountPrice('rate', 10))}
+            {intl.formatMessage({ id: 'KOREAN_WON' })}
+          </CartFooter>
+        </CartContents>
         <Bill />
       </CartContainer>
     </>
@@ -52,11 +59,22 @@ const CartContainer = styled.div`
   flex-direction: row;
 `;
 
-const CartItems = styled.div`
+const CartContents = styled.div`
   width: 770px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-right: 40px;
+`;
+
+const CartItems = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CartFooter = styled(Title)`
+  font-size: 24px;
 `;
 
 export default Cart;

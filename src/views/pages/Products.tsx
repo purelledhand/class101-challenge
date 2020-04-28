@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Header, Title, SubTitle } from 'views/layout/layoutStyles';
 import Product from 'views/common/Product';
 import Pagination from '@material-ui/lab/Pagination';
-import productItems from 'utils/productItems';
+import productItems from 'rawdata/productItems';
 
 /*
  * NOTE: Pagination Strategy
