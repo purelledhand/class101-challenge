@@ -22,9 +22,7 @@ const Product: React.FC<ProductProps> = observer((props) => {
   const { cart } = useMst();
   const intl = useIntl();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    id, title, coverImage, price, score, availableCoupon,
-  } = props;
+  const { id, title, coverImage, price, score, availableCoupon } = props;
   const [isInCart, setIsInCart] = useState<boolean>(false);
 
   useEffect(() => {
