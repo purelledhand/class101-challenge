@@ -24,7 +24,7 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
   );
 };
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -34,14 +34,14 @@ const Wrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
-const ProductTitle = styled(Row)`
+export const ProductTitle = styled(Row)`
   color: #dc004e;
   display: inline-block;
   width: 228px;

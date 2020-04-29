@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import addComma from 'utils/addComma';
 import { Coupon } from 'models/types';
 import OrderItem from './OrderItem';
+import DiscountItem from './DiscountItem';
 
 interface BillProps {
   coupon: Coupon | undefined;
@@ -45,12 +46,11 @@ const Bill: React.FC<BillProps> = observer((props) => {
           <ContentTitle>
             {intl.formatMessage({ id: 'ORDER_DISCOUNTS' })}
           </ContentTitle>
-          <div>
-            {coupon === undefined ? intl.formatMessage({ id: 'NO_COUPONS_APPLIED' }) : coupon.title}
-          </div>
-          <div>
-            {intl.formatMessage({ id: 'DISCOUNTS_AMOUNT' })} {addComma(cart.discountPrice(coupon))}
-          </div>
+          /* TODO: 상품들 담은 후 쿠폰 불가능한 상품만 남긴 후 모두 제거했을 때, 쿠폰 타이틀 잔존하는 부분 핸들링 */
+          <DiscountItem
+            title={coupon === undefined ? intl.formatMessage({ id: 'NO_COUPONS_APPLIED' }) : coupon.title}
+            price={cart.discountPrice(coupon)}
+          />
         </div>
         <ContentsFooter>
           <div>
