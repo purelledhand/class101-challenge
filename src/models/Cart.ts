@@ -5,6 +5,8 @@ import {
   getParent,
   destroy,
 } from 'mobx-state-tree';
+import { Coupon } from 'models/types';
+import { COUPON_TYPE_RATE, COUPON_TYPE_AMOUNT } from 'utils/consts';
 
 export const CartItem = types
   .model({
@@ -65,16 +67,26 @@ export const Cart = types
     isExist(id: string) {
       return self.items.map((item) => item.id).indexOf(id) !== -1;
     },
-    discountPrice(type: string, amount: number) {
+    discountPrice(coupon: Coupon | undefined) {
+      if (coupon === undefined) return 0;
+
+      const { type, discountRate, discountAmount } = coupon;
       const totalCouponItemsPrice = this.couponApplicableItems.reduce(
         (sum, entry) => (sum + (entry.price * entry.quantity)),
         0,
       );
 
+      /* TODO: 더 나은 undefined 핸들링 방안 필요 */
+      const rate = discountRate || 100;
+      const amount = discountAmount || 0;
+
       switch (type) {
-        case 'rate': return Number(totalCouponItemsPrice * (amount / 100));
-        case 'amount': return totalCouponItemsPrice < amount ? totalCouponItemsPrice : amount;
-        default: throw Error(/* TODO: Write error message. */);
+        case COUPON_TYPE_RATE:
+          return Number(totalCouponItemsPrice * (rate / 100));
+        case COUPON_TYPE_AMOUNT:
+          return totalCouponItemsPrice < amount ? totalCouponItemsPrice : amount;
+        default:
+          throw Error(/* TODO: Write error message. */);
       }
     },
   }));

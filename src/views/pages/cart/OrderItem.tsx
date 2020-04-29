@@ -44,7 +44,7 @@ const Row = styled.div`
 const ProductTitle = styled(Row)`
   color: #dc004e;
   display: inline-block;
-  width: 236px;
+  width: 228px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
