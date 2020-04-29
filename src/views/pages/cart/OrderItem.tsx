@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+import addComma from 'utils/addComma';
 
 interface OrderItemProps {
   title: string;
@@ -17,13 +18,13 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
       <ProductTitle>
         {title}
       </ProductTitle>
-      {price}{intl.formatMessage({ id: 'KOREAN_WON' })}x
+      {addComma(price)}{intl.formatMessage({ id: 'KOREAN_WON' })}x
       {quantity}{intl.formatMessage({ id: 'PRODUCT_UNIT' })}
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -33,17 +34,17 @@ const Wrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
-const ProductTitle = styled(Row)`
+export const ProductTitle = styled(Row)`
   color: #dc004e;
   display: inline-block;
-  width: 236px;
+  width: 228px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

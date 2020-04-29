@@ -4,15 +4,31 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
 import Button from '@material-ui/core/Button';
+import addComma from 'utils/addComma';
+import { Coupon } from 'models/types';
 import OrderItem from './OrderItem';
+import DiscountItem from './DiscountItem';
 
-const CartItem: React.FC = observer(() => {
+interface BillProps {
+  coupon: Coupon | undefined;
+}
+
+const Bill: React.FC<BillProps> = observer((props) => {
+  const { coupon } = props;
   const { cart } = useMst();
   const intl = useIntl();
 
-  const renderOrderItems = () => cart.orderItems.map(({ title, price, quantity }) => (
-    <OrderItem title={title} price={price} quantity={quantity} />
-  ));
+  const renderOrderItems = cart.getItems.map((item) => {
+    const { title, price, quantity } = item;
+
+    return (
+      <OrderItem
+        title={title}
+        price={price}
+        quantity={quantity}
+      />
+    );
+  });
 
   return (
     <Wrapper>
@@ -21,18 +37,26 @@ const CartItem: React.FC = observer(() => {
       </Header>
       <Contents>
         <div>
-          <ContentsTitle>
+          <ContentTitle>
             {intl.formatMessage({ id: 'ORDER_PRODUCTS' })}
-          </ContentsTitle>
+          </ContentTitle>
           {renderOrderItems}
         </div>
         <div>
-          <ContentsTitle>
+          <ContentTitle>
             {intl.formatMessage({ id: 'ORDER_DISCOUNTS' })}
-          </ContentsTitle>
+          </ContentTitle>
+          {/* TODO: 상품들 담은 후 쿠폰 불가능한 상품만 남긴 후 모두 제거했을 때, 쿠폰 타이틀 잔존하는 부분 핸들링 */}
+          <DiscountItem
+            title={coupon === undefined ? intl.formatMessage({ id: 'NO_COUPONS_APPLIED' }) : coupon.title}
+            price={cart.discountPrice(coupon)}
+          />
         </div>
         <ContentsFooter>
-          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {cart.totalPrice}
+          <div>
+            {addComma(cart.totalPrice)}{intl.formatMessage({ id: 'KOREAN_WON' })} - {addComma(cart.discountPrice(coupon))}{intl.formatMessage({ id: 'KOREAN_WON' })}
+          </div>
+          {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {addComma(cart.totalPrice - cart.discountPrice(coupon))}
           {intl.formatMessage({ id: 'KOREAN_WON' })}
         </ContentsFooter>
       </Contents>
@@ -67,7 +91,12 @@ const Header = styled.h2`
   margin: 0px;
 `;
 
-const ContentsTitle = styled(Header)`
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentTitle = styled(Header)`
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 12px;
@@ -91,11 +120,10 @@ const Footer = styled.div`
 const ContentsFooter = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   font-weight: bold;
   font-size: 18px;
 `;
 
-export default CartItem;
+export default Bill;
