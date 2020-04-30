@@ -31,7 +31,7 @@ const Bill: React.FC<BillProps> = observer((props) => {
 
   const handleOrderConfirmDialogClose = () => {
     setOrderedConfirmDialogOpen(false);
-    cart.empty();
+    cart.order();
   };
 
   const renderOrderItems = cart.checkedItems.map((item) => {
