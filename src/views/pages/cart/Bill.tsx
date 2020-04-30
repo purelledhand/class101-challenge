@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSnackbar } from 'notistack';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
@@ -18,7 +19,16 @@ const Bill: React.FC<BillProps> = observer((props) => {
   const { coupon } = props;
   const [orderConfirmDialogOpen, setOrderedConfirmDialogOpen] = useState(false);
   const { cart } = useMst();
+  const { enqueueSnackbar } = useSnackbar();
   const intl = useIntl();
+
+  const handleOrderConfirmDialogOpen = () => {
+    if (cart.checkedItems.length === 0) {
+      enqueueSnackbar(intl.formatMessage({ id: 'ORDER_IS_EMPTY' }));
+      return;
+    }
+    setOrderedConfirmDialogOpen(true);
+  };
 
   const handleOrderConfirmDialogClose = () => {
     setOrderedConfirmDialogOpen(false);
@@ -67,7 +77,7 @@ const Bill: React.FC<BillProps> = observer((props) => {
         </ContentsFooter>
       </Contents>
       <Footer>
-        <Button fullWidth onClick={() => setOrderedConfirmDialogOpen(true)}>
+        <Button fullWidth onClick={handleOrderConfirmDialogOpen}>
           {intl.formatMessage({ id: 'ORDER' })}
         </Button>
       </Footer>
