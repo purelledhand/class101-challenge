@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import addComma from 'utils/addComma';
 import Button from '@material-ui/core/Button';
 import { Coupon } from 'models/types';
-import CartItem from './cart/CartItem';
-import Bill from './cart/Bill';
-import SelectCouponDialog from './cart/SelectCouponDialog';
+import CartItem from './CartItem';
+import Bill from './Bill';
+import SelectCouponDialog from './SelectCouponDialog';
 
 const Cart: React.FC = observer(() => {
   const { cart } = useMst();
