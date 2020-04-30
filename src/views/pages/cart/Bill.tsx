@@ -107,6 +107,12 @@ const Contents = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 335px;
+  &>div {
+    min-height: 130px;
+  }
+  &>div:last-child {
+    min-height: 40px;
+  }
 `;
 
 const Footer = styled.div`
@@ -123,6 +129,11 @@ const ContentsFooter = styled.div`
   align-items: flex-end;
   font-weight: bold;
   font-size: 18px;
+  &>div:first-child {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 16px;
+  }
 `;
 
 export default Bill;
