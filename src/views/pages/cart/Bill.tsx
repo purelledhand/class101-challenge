@@ -46,7 +46,6 @@ const Bill: React.FC<BillProps> = observer((props) => {
           <ContentTitle>
             {intl.formatMessage({ id: 'ORDER_DISCOUNTS' })}
           </ContentTitle>
-          {/* TODO: 상품들 담은 후 쿠폰 불가능한 상품만 남긴 후 모두 제거했을 때, 쿠폰 타이틀 잔존하는 부분 핸들링 */}
           <DiscountItem
             title={coupon === undefined ? intl.formatMessage({ id: 'NO_COUPONS_APPLIED' }) : coupon.title}
             price={cart.discountPrice(coupon)}
@@ -108,6 +107,12 @@ const Contents = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 335px;
+  &>div {
+    min-height: 130px;
+  }
+  &>div:last-child {
+    min-height: 40px;
+  }
 `;
 
 const Footer = styled.div`
@@ -124,6 +129,11 @@ const ContentsFooter = styled.div`
   align-items: flex-end;
   font-weight: bold;
   font-size: 18px;
+  &>div:first-child {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 16px;
+  }
 `;
 
 export default Bill;

@@ -8,11 +8,11 @@ import productItems from 'rawdata/productItems';
 
 /*
  * NOTE: Pagination Strategy
- * ISSUE: 페이지 바뀔때마다 cdn에서 이미지 가져와서 인터랙션이 안좋아짐
- * ISSUE: 이미 방문했던 페이지 이미지도 다시 cdn에서 받아옴 (캐싱 도입?)
+ * ISSUE: pagination 바뀔때마다 cdn에서 이미지 가져와서 인터랙션이 안좋아짐
+ * ISSUE: 이미 방문했던 pagination의 이미지도 다시 cdn에서 받아옴
  * ISSUE: 리렌더링 시 cdn에서 original 이미지 다시 불러오는 문제
  * Request URL: https://cdn.class101.net/images/a363a069-5aaf-40cb-822e-a2cab585c37e/original
- * cdn에 original로 붙어서 요청감 -> DOM에서 이미지 잡아놔야함
+ * cdn에 original로 붙어서 요청감 -> DOM에서 이미지 잡아놓는 식으로 해결방안 찾아보기
  */
 
 interface Product {
@@ -27,7 +27,6 @@ interface Product {
 const Products: React.FC = () => {
   const defaultPage = 1;
   const sortedProductItems = productItems.sort((a, b) => b.score - a.score);
-  // array of product index : 검색 시간복잡도 O(1)
   const [renderedProducts, setRenderedProducts] = useState<Array<Product>>([]);
   const [productPage, setProductPage] = useState<number>(defaultPage);
   const intl = useIntl();
@@ -43,12 +42,6 @@ const Products: React.FC = () => {
     setRenderedProducts(sortedProductItems.slice((defaultPage - 1) * 5, defaultPage * 5));
   }, [sortedProductItems]);
 
-  /*
-   * NOTE: 프로덕트 렌더링 방식 및 state management strategy
-   * 서버로부터 받은 데이터를 모두 클라이언트로 가져 온 다음, 컴포넌트 상태에 저장
-   * 가져 온 데이터를 5개씩 쪼개서 페이지네이션과 함께 렌더링.
-   * 더 효율적인 방법이 있는지 검토 필요함
-   */
   function renderProduct(products: Array<Product>) {
     return products.map((item: Product) => {
       const { id, title, coverImage, price, score, availableCoupon } = item;
