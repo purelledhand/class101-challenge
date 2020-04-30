@@ -59,7 +59,7 @@ export const Cart = types
       return this.checkedItems.reduce((sum, entry) => (sum + (entry.price * entry.quantity)), 0);
     },
     get couponApplicableItems() {
-      return self.items.filter((item) => item.availableCoupon);
+      return this.checkedItems.filter((item) => item.availableCoupon);
     },
     getItem(id: string) {
       return self.items.find((item) => item.id === id);

@@ -18,7 +18,7 @@ const Bill: React.FC<BillProps> = observer((props) => {
   const { cart } = useMst();
   const intl = useIntl();
 
-  const renderOrderItems = cart.getItems.map((item) => {
+  const renderOrderItems = cart.checkedItems.map((item) => {
     const { title, price, quantity } = item;
 
     return (
