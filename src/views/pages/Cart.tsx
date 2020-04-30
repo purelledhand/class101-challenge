@@ -63,7 +63,7 @@ const Cart: React.FC = observer(() => {
               </Button>
               {selectedCoupon === undefined ? intl.formatMessage({ id: 'NO_COUPONS_APPLIED' }) : selectedCoupon.title}
             </CouponContainer>
-            {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {!selectedCoupon ? addComma(cart.totalPrice - cart.discountPrice(selectedCoupon)) : addComma(cart.totalPrice)}
+            {intl.formatMessage({ id: 'TOTAL_PAYMENT_AMOUNT' })} {selectedCoupon ? addComma(cart.totalPrice - cart.discountPrice(selectedCoupon)) : addComma(cart.totalPrice)}
             {intl.formatMessage({ id: 'KOREAN_WON' })}
           </CartFooter>
         </CartContents>
