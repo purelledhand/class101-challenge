@@ -9,7 +9,7 @@ export interface CartItem {
   id: string;
   title: string;
   quantity: number;
-  price: string;
+  price: number;
   availableCoupon?: boolean;
   checkOrder: boolean,
 }

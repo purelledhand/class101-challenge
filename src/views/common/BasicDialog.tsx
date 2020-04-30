@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,19 +22,25 @@ const BasicDialog: React.FC<BasicDialogProps> = (props) => {
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle>
-        {title}
-      </DialogTitle>
-      <DialogContent>
-        {children}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color='secondary' autoFocus>
-          {intl.formatMessage({ id: 'COMFIRM' })}
-        </Button>
-      </DialogActions>
+      <DialogWrapper>
+        <DialogTitle>
+          {title}
+        </DialogTitle>
+        <DialogContent>
+          {children}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='secondary' autoFocus>
+            {intl.formatMessage({ id: 'CONFIRM' })}
+          </Button>
+        </DialogActions>
+      </DialogWrapper>
     </Dialog>
   );
 };
+
+const DialogWrapper = styled.div`
+  padding: 8px 12px;
+`;
 
 export default BasicDialog;

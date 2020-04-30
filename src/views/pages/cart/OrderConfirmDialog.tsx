@@ -16,7 +16,7 @@ const OrderConfirmDialog: React.FC<OrderConfirmDialogProps> = (props) => {
 
   const renderOrderedItems = orderedItems.map((item) => (
     <OrderedItem>
-      <span>{item.title}</span>x{item.quantity}{intl.formatMessage({ id: 'PRODUCT_UNIT' })}
+      <span>{item.title} </span>x {item.quantity}{intl.formatMessage({ id: 'PRODUCT_UNIT' })}
     </OrderedItem>
   ));
 
@@ -33,6 +33,10 @@ const OrderConfirmDialog: React.FC<OrderConfirmDialogProps> = (props) => {
 
 const OrderedItem = styled.div`
   font-size: 14px;
+  margin-bottom: 12px;
+  &:last-child {
+    margin-bottom: 0;
+  }
   &>span {
     color: #dc004e;
   }
