@@ -4,8 +4,8 @@ import { SnackbarProvider } from 'notistack';
 import { SnackbarAutoHideDuration } from 'utils/consts';
 import Path from './routes/Path';
 import Layout from './views/layout/Layout';
-import Products from './views/pages/Products';
-import Cart from './views/pages/Cart';
+import Products from './views/pages/products';
+import Cart from './views/pages/cart';
 import './App.css';
 
 // TODO: Add 404 Handling page
