@@ -8,7 +8,7 @@ export interface Coupon {
 export interface CartItem {
   id: string;
   title: string;
-  quantity: string;
+  quantity: number;
   price: string;
   availableCoupon?: boolean;
   checkOrder: boolean,
