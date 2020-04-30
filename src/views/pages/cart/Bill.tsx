@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useSnackbar } from 'notistack';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useMst } from 'models/Root';
@@ -8,6 +9,7 @@ import addComma from 'utils/addComma';
 import { Coupon } from 'models/types';
 import OrderItem from './OrderItem';
 import DiscountItem from './DiscountItem';
+import OrderConfirmDialog from './OrderConfirmDialog';
 
 interface BillProps {
   coupon: Coupon | undefined;
@@ -15,8 +17,23 @@ interface BillProps {
 
 const Bill: React.FC<BillProps> = observer((props) => {
   const { coupon } = props;
+  const [orderConfirmDialogOpen, setOrderedConfirmDialogOpen] = useState(false);
   const { cart } = useMst();
+  const { enqueueSnackbar } = useSnackbar();
   const intl = useIntl();
+
+  const handleOrderConfirmDialogOpen = () => {
+    if (cart.checkedItems.length === 0) {
+      enqueueSnackbar(intl.formatMessage({ id: 'ORDER_IS_EMPTY' }));
+      return;
+    }
+    setOrderedConfirmDialogOpen(true);
+  };
+
+  const handleOrderConfirmDialogClose = () => {
+    setOrderedConfirmDialogOpen(false);
+    cart.empty();
+  };
 
   const renderOrderItems = cart.checkedItems.map((item) => {
     const { title, price, quantity } = item;
@@ -60,10 +77,15 @@ const Bill: React.FC<BillProps> = observer((props) => {
         </ContentsFooter>
       </Contents>
       <Footer>
-        <Button fullWidth>
+        <Button fullWidth onClick={handleOrderConfirmDialogOpen}>
           {intl.formatMessage({ id: 'ORDER' })}
         </Button>
       </Footer>
+      <OrderConfirmDialog
+        orderedItems={cart.checkedItems}
+        open={orderConfirmDialogOpen}
+        handleClose={handleOrderConfirmDialogClose}
+      />
     </Wrapper>
   );
 });
@@ -88,11 +110,6 @@ const Header = styled.h2`
   color: rgb(27, 28, 29);
   letter-spacing: -0.6px;
   margin: 0px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const ContentTitle = styled(Header)`
