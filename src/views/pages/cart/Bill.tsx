@@ -90,11 +90,6 @@ const Header = styled.h2`
   margin: 0px;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const ContentTitle = styled(Header)`
   font-size: 18px;
   font-weight: 400;

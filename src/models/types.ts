@@ -4,3 +4,12 @@ export interface Coupon {
   discountRate?: number,
   discountAmount?: number
 }
+
+export interface CartItem {
+  id: string;
+  title: string;
+  quantity: string;
+  price: string;
+  availableCoupon?: boolean;
+  checkOrder: boolean,
+}
