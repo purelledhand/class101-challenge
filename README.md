@@ -1,4 +1,4 @@
-## 🛒 클래스101 장바구니 시스템
+# 🛒 클래스101 장바구니 시스템
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c2ebeae7-dbb3-4cd2-b366-4c696d03822c/deploy-status)](https://app.netlify.com/sites/sohye-class101-challenge/deploys)
 
