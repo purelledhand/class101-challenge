@@ -19,6 +19,7 @@
   "TOTAL_PAYMENT_AMOUNT": "총 결제 금액",
   "ORDER": "주문하기",
   "CANCEL": "취소",
+  "CONFIRM": "확인",
 
   "ADDED_TO_CART": "장바구니에 상품을 담았습니다.",
   "REMOVED_FROM_CART": "상품을 장바구니에서 제거했습니다.",
@@ -32,5 +33,8 @@
   "APPLY_COUPON": "쿠폰 적용",
   "SELECT_COUPON": "쿠폰을 선택해주세요.",
   "NO_COUPONS_APPLIED": "적용된 쿠폰이 없습니다.",
-  "NO_PRODUCTS_AVAILABLE_COUPON": "쿠폰을 적용가능한 상품이 없습니다."
+  "NO_PRODUCTS_AVAILABLE_COUPON": "쿠폰을 적용가능한 상품이 없습니다.",
+
+  "ORDER_IS_COMPLETE": "주문이 완료되었습니다! 🎉",
+  "ORDER_IS_EMPTY": "주문할 상품이 없습니다."
 }

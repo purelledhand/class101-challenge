@@ -44,6 +44,11 @@ export const Cart = types
     removeItem(item: SnapshotIn<typeof CartItem>) {
       destroy(item);
     },
+    empty() {
+      self.items.forEach((item) => {
+        destroy(item);
+      });
+    },
   }))
   .views((self) => ({
     get countItems() {
@@ -76,7 +81,7 @@ export const Cart = types
         0,
       );
 
-      /* TODO: 더 나은 undefined 핸들링 방안 필요 */
+      /* TODO: 더 나은 undefined 핸들링 방안 생각해보기 */
       const rate = discountRate || 100;
       const amount = discountAmount || 0;
 
