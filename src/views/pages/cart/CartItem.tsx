@@ -27,24 +27,20 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
   const handleToggleOrder = () => {
     // eslint-disable-next-line no-unused-expressions
     cart.getItem(id)?.toggleOrder();
-    // eslint-disable-next-line no-console
-    console.log(cart.getItem(id));
   };
 
   const handleIncreaseQuantity = () => {
     if (quantity >= 10) {
-      enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MAXIMUM_QUANTITY' }, { maximumQuantity }));
-      return;
+      return enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MAXIMUM_QUANTITY' }, { maximumQuantity }));
     }
-    cart.getItem(id)?.increaseQuantity();
+    return cart.getItem(id)?.increaseQuantity();
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity <= 1) {
-      enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MINIMUM_QUANTITY' }));
-      return;
+      return enqueueSnackbar(intl.formatMessage({ id: 'EXCEEDED_MINIMUM_QUANTITY' }));
     }
-    cart.getItem(id)?.decreaseQuantity();
+    return cart.getItem(id)?.decreaseQuantity();
   };
 
   return (

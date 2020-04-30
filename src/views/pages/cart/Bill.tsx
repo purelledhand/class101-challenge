@@ -24,10 +24,9 @@ const Bill: React.FC<BillProps> = observer((props) => {
 
   const handleOrderConfirmDialogOpen = () => {
     if (cart.checkedItems.length === 0) {
-      enqueueSnackbar(intl.formatMessage({ id: 'ORDER_IS_EMPTY' }));
-      return;
+      return enqueueSnackbar(intl.formatMessage({ id: 'ORDER_IS_EMPTY' }));
     }
-    setOrderedConfirmDialogOpen(true);
+    return setOrderedConfirmDialogOpen(true);
   };
 
   const handleOrderConfirmDialogClose = () => {
