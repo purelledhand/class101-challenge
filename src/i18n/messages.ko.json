@@ -19,6 +19,7 @@
   "TOTAL_PAYMENT_AMOUNT": "총 결제 금액",
   "ORDER": "주문하기",
   "CANCEL": "취소",
+  "CONFIRM": "확인",
 
   "ADDED_TO_CART": "장바구니에 상품을 담았습니다.",
   "REMOVED_FROM_CART": "상품을 장바구니에서 제거했습니다.",
