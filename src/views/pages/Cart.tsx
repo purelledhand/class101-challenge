@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Header, Title, SubTitle } from 'views/layout/layoutStyles';
 import { observer } from 'mobx-react-lite';
@@ -16,6 +16,10 @@ const Cart: React.FC = observer(() => {
   const intl = useIntl();
   const [selectCouponDialogopen, setSelectCouponDialogOpen] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon>();
+
+  useEffect(() => {
+    cart.couponApplicableItems.length === 0 && setSelectedCoupon(undefined);
+  }, [cart.couponApplicableItems]);
 
   const handleSelectCouponDialogClose = (value: Coupon | undefined) => {
     setSelectCouponDialogOpen(false);
