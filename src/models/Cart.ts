@@ -44,10 +44,13 @@ export const Cart = types
     removeItem(item: SnapshotIn<typeof CartItem>) {
       destroy(item);
     },
-    empty() {
-      self.items.forEach((item) => {
-        destroy(item);
-      });
+    order() {
+      const orderedItems = self.items.filter((item) => item.checkOrder);
+      if (orderedItems.length > 0) {
+        orderedItems.forEach((item) => {
+          destroy(item);
+        });
+      }
     },
   }))
   .views((self) => ({
