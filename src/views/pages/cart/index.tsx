@@ -31,6 +31,7 @@ const Cart: React.FC = observer(() => {
 
     return (
       <CartItem
+        key={id}
         id={id}
         title={title}
         price={price}

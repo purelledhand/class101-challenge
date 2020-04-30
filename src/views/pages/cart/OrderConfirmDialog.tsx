@@ -15,7 +15,7 @@ const OrderConfirmDialog: React.FC<OrderConfirmDialogProps> = (props) => {
   const intl = useIntl();
 
   const renderOrderedItems = orderedItems.map((item) => (
-    <OrderedItem>
+    <OrderedItem key={item.id}>
       <span>{item.title} </span>x {item.quantity}{intl.formatMessage({ id: 'PRODUCT_UNIT' })}
     </OrderedItem>
   ));
