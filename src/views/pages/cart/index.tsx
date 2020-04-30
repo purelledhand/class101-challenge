@@ -116,7 +116,6 @@ const CouponContainer = styled.div`
   font-weight: 400;
   height: 44px;
   align-items: center;
-  width: 240px;
   margin-bottom: 10px;
   & button {
     margin-right: 10px;
