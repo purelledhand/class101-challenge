@@ -66,8 +66,8 @@ const CartItem: React.FC<CartItemProps> = observer((props) => {
             {addComma(price)}
             {intl.formatMessage({ id: 'KOREAN_WON' })}
           </div>
-          <IconButton>
-            <Delete onClick={() => cart.getItem(id)?.remove()} />
+          <IconButton onClick={() => cart.getItem(id)?.remove()}>
+            <Delete />
           </IconButton>
         </RightSide>
       </Row>

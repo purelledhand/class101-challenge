@@ -8,13 +8,11 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <IntlProvider locale={language} messages={messages}>
-      <Provider value={rootStore}>
-        <App />
-      </Provider>
-    </IntlProvider>
-  </React.StrictMode>,
+  <IntlProvider locale={language} messages={messages}>
+    <Provider value={rootStore}>
+      <App />
+    </Provider>
+  </IntlProvider>,
   document.getElementById('root'),
 );
 

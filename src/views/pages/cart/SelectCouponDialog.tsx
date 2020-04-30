@@ -20,7 +20,7 @@ const SelectCouponDialog = (props: SelectCouponDialogProps) => {
   const intl = useIntl();
 
   const renderCoupons = coupons.map((coupon) => (
-    <ListItem button onClick={() => onClose(coupon)} key={coupon.title}>
+    <ListItem button key={coupon.title} onClick={() => onClose(coupon)}>
       <ListItemText primary={coupon.title} />
     </ListItem>
   ));

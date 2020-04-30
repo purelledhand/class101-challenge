@@ -35,10 +35,11 @@ const Bill: React.FC<BillProps> = observer((props) => {
   };
 
   const renderOrderItems = cart.checkedItems.map((item) => {
-    const { title, price, quantity } = item;
+    const { id, title, price, quantity } = item;
 
     return (
       <OrderItem
+        key={id}
         title={title}
         price={price}
         quantity={quantity}
